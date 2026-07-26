@@ -120,35 +120,65 @@ window.addEventListener('scroll', () => {
 //         }
 //     });
 // }
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
 
-// const contactForm = document.getElementById('contactForm');
-// const formStatus = document.getElementById('formStatus');
-
-// if (contactForm) {
-//     contactForm.addEventListener('submit', async (e) => {
-//         e.preventDefault(); // Prevents page reload
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Stop form refresh
         
-//         formStatus.textContent = "Sending message... ✉️";
-//         formStatus.style.color = "var(--text-color)";
+        formStatus.textContent = "Sending message... ✉️";
+        formStatus.style.color = "var(--text-color)";
 
-//         // Simulate an API call (or plug in Formspree/EmailJS here)
-//         setTimeout(() => {
-//             formStatus.textContent = "Message sent successfully! 🎉";
-//             formStatus.style.color = "#28a745"; // Green success text
-//             contactForm.reset(); // Clears the form inputs
-//         }, 2000);
-//     });
-// }
+        // Elements ID match aagudha nu get panrom
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const subjectInput = document.getElementById('subject');
+        const messageInput = document.getElementById('message');
+
+        const formData = {
+            name: nameInput ? nameInput.value : '',
+            email: emailInput ? emailInput.value : '',
+            subject: subjectInput ? subjectInput.value : '',
+            message: messageInput ? messageInput.value : ''
+        };
+
+        try {
+            // FORMSPREE ENDPOINT LINK (Formspree URL-a replace pannunga)
+            const response = await fetch('https://formspree.io/f/mzdnypek', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                formStatus.textContent = "Message sent successfully! 🎉";
+                formStatus.style.color = "#28a745";
+                contactForm.reset();
+            } else {
+                formStatus.textContent = "Failed to send message ❌";
+                formStatus.style.color = "#dc3545";
+            }
+        } catch (error) {
+            console.error("Fetch Error:", error);
+            formStatus.textContent = "Network Error! Try again.";
+            formStatus.style.color = "#dc3545";
+        }
+    });
+}
 
 // Python projects
 function togglePythonSuite(event) {
     event.preventDefault();
-    const card = event.target.closest('.project-card');
+    const card = event.currentTarget.closest('.project-card');
     const list = card.querySelector('.python-projects-list');
-    const isHidden = list.style.display === 'none';
+    const isHidden = window.getComputedStyle(list).display === 'none';
     
     list.style.display = isHidden ? 'block' : 'none';
-    event.target.innerHTML = isHidden 
+    event.currentTarget.innerHTML = isHidden 
         ? 'Close Suite <i class="fa-solid fa-chevron-up"></i>' 
         : 'Explore Projects <i class="fa-solid fa-chevron-down"></i>';
 }
@@ -156,12 +186,12 @@ function togglePythonSuite(event) {
 // Toggle UI Templates List
 function toggleUISuite(event) {
     event.preventDefault();
-    const card = event.target.closest('.project-card');
+    const card = event.currentTarget.closest('.project-card');
     const list = card.querySelector('.ui-projects-list');
-    const isHidden = list.style.display === 'none';
+    const isHidden = window.getComputedStyle(list).display === 'none';    
     
     list.style.display = isHidden ? 'block' : 'none';
-    event.target.innerHTML = isHidden 
+    event.currentTarget.innerHTML = isHidden 
         ? 'Close Templates <i class="fa-solid fa-chevron-up"></i>' 
         : 'Explore Templates <i class="fa-solid fa-chevron-down"></i>';
 }
@@ -169,12 +199,12 @@ function toggleUISuite(event) {
 // Toggle Games List
 function toggleGameSuite(event) {
     event.preventDefault();
-    const card = event.target.closest('.project-card');
+    const card = event.currentTarget.closest('.project-card');
     const list = card.querySelector('.game-projects-list');
-    const isHidden = list.style.display === 'none';
+    const isHidden = window.getComputedStyle(list).display === 'none';    
     
     list.style.display = isHidden ? 'block' : 'none';
-    event.target.innerHTML = isHidden 
+    event.currentTarget.innerHTML = isHidden 
         ? 'Close Games <i class="fa-solid fa-chevron-up"></i>' 
         : 'Explore Games <i class="fa-solid fa-chevron-down"></i>';
 }

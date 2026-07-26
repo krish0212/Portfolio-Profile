@@ -381,9 +381,10 @@ body {
 
 /* --- Project Grid Cards --- */
 .projects-grid {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2.5rem;
+    align-items: flex-start; 
 }
 
 .project-card {
@@ -407,7 +408,6 @@ body {
     font-size: 3.5rem;
     color: white;
 }
-
 .gradient-1 { background: linear-gradient(135deg, #6366f1, #a855f7); }
 .gradient-2 { background: linear-gradient(135deg, #10b981, #3b82f6); }
 .gradient-3 { background: linear-gradient(135deg, #2af598 0%, #009efd 100%);

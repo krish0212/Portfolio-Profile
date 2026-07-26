@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Portfolio </title>
-    <link rel="icon" type="image/jpeg" href="girlim.jpg">
+    <link rel="icon" type="image/jpeg" href="images.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -215,6 +216,14 @@
                 <div class="bar-container"><div class="bar" style="width: 75%;"></div></div>
                 <span class="percent">75%</span>
             </div>
+
+            <div class="skill-card" style="--accent-color: #f05032;">
+                <div class="skill-icon"><i class="fa-brands fa-github"></i></div>
+                <h3>Git & GitHub</h3>
+                <div class="bar-container"><div class="bar" style="width: 85%;"></div></div>
+                <span class="percent">85%</span>
+            </div>
+                        
         </div>
     </section>
 
@@ -258,12 +267,12 @@
                     </button>
                     <div class="ui-projects-list" style="display: none; margin-top: 15px;">
                         <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li><a href="https://portfolio-profile-e6ks4k31c-krishna02.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 1. Personal Portfolio</a></li>
-                            <li><a href="https://ui-component-chi.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 2. UI Component</a></li>
-                            <li><a href="https://course-academy-plum.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 3. Course Academy</a></li>
-                            <li><a href="https://product-landing-beige-nine.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 4. Product Landing Page</a></li>
-                            <li><a href="https://ecomm-template-pi.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 5. E-Commerce UI Template</a></li>
-                            <li><a href="https://login-validation-snowy.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 6. Login Validation </a></li>
+                            <!-- <li><a href="https://portfolio-profile-e6ks4k31c-krishna02.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 1. Personal Portfolio</a></li> -->
+                            <li><a href="https://ui-component-chi.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 1. UI Component</a></li>
+                            <li><a href="https://course-academy-plum.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 2. Course Academy</a></li>
+                            <li><a href="https://product-landing-beige-nine.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 3. Product Landing Page</a></li>
+                            <li><a href="https://ecomm-template-pi.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 4. E-Commerce UI Template</a></li>
+                            <li><a href="https://login-validation-snowy.vercel.app/" target="_blank" class="sub-project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> 5. Login Validation </a></li>
 
                         </ul>
                     </div>
@@ -308,14 +317,16 @@
                 </div>
             </div>
             <div class="contact-form">
-                <form action="#">
+                <form id ="contactForm">
                     <div class="input-group">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
+                        <input type="text" id="name" placeholder="Your Name" required>
+                        <input type="email"id="email" placeholder="Your Email" required>
                     </div>
-                    <input type="text" placeholder="Subject" required>
+                    <input type="text" id="subject" placeholder="Subject" required>
                     <textarea placeholder="Message" rows="5" required></textarea>
+                    
                     <button type="submit" class="btn primary-btn">Send Message</button>
+                    <p id="formStatus" style="margin-top: 12px; font-weight: 500;"></p>
                 </form>
             </div>
         </div>
