@@ -1,1 +1,2 @@
-https://portfolio-profile-ac765g19u-krishna02.vercel.app
+https://portfolio-profile-kx7qo3b79-krishna02.vercel.app/
+
