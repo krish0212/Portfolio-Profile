@@ -1,210 +1,755 @@
-// --- Dom Elements ---
-const themeBtn = document.getElementById('themeBtn');
-const mobileMenuBtn = document.getElementById('mobileMenu');
-const navLinksContainer = document.getElementById('navLinks');
-const navLinks = document.querySelectorAll('.nav-item');
-const sections = document.querySelectorAll('section');
-const typingElement = document.querySelector('.typing-text');
+/* =========================================
+   DOM ELEMENTS
+========================================= */
 
-// --- 1. Dynamic Auto-Typing Effect ---
-const words = ["Full Stack Developer."];
-let wordIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
+const body = document.body;
 
-function typeAnimation() {
-    if (!typingElement) return; // Guard clause in case element missing
-    const currentWord = words[wordIndex];
-    
-    if (isDeleting) {
-        typingElement.textContent = currentWord.substring(0, charIndex - 1);
-        charIndex--;
+const themeBtn = document.getElementById("themeBtn");
+
+const menuBtn = document.getElementById("menuBtn");
+
+const navMenu = document.getElementById("navMenu");
+
+const navLinks = document.querySelectorAll(".nav-link");
+
+const sections = document.querySelectorAll("section[id]");
+
+const navbar = document.getElementById("navbar");
+
+const typingText = document.getElementById("typingText");
+
+const yearElement = document.getElementById("year");
+
+
+/* =========================================
+   CURRENT YEAR
+========================================= */
+
+if (yearElement) {
+
+    yearElement.textContent = new Date().getFullYear();
+
+}
+
+
+/* =========================================
+   TYPING ANIMATION
+========================================= */
+
+const roles = [
+
+    "Python Full Stack Developer",
+
+    "Django Developer",
+
+    "AI/ML Developer",
+
+    "Backend Developer"
+
+];
+
+let roleIndex = 0;
+
+let characterIndex = 0;
+
+let deleting = false;
+
+
+function typeRole() {
+
+    if (!typingText) return;
+
+    const currentRole = roles[roleIndex];
+
+    if (!deleting) {
+
+        typingText.textContent =
+            currentRole.substring(
+                0,
+                characterIndex + 1
+            );
+
+        characterIndex++;
+
     } else {
-        typingElement.textContent = currentWord.substring(0, charIndex + 1);
-        charIndex++;
+
+        typingText.textContent =
+            currentRole.substring(
+                0,
+                characterIndex - 1
+            );
+
+        characterIndex--;
+
     }
 
-    let typeSpeed = isDeleting ? 50 : 100;
 
-    if (!isDeleting && charIndex === currentWord.length) {
-        typeSpeed = 1500; // Pause at full word
-        isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        typeSpeed = 500; // Pause before typing next word
+    let speed = deleting ? 45 : 85;
+
+
+    if (
+        !deleting &&
+        characterIndex === currentRole.length
+    ) {
+
+        speed = 1700;
+
+        deleting = true;
+
     }
 
-    setTimeout(typeAnimation, typeSpeed);
-}
-document.addEventListener("DOMContentLoaded", () => setTimeout(typeAnimation, 1000));
+
+    if (
+        deleting &&
+        characterIndex === 0
+    ) {
+
+        deleting = false;
+
+        roleIndex =
+            (roleIndex + 1) % roles.length;
+
+        speed = 400;
+
+    }
 
 
-// --- 2. Interactive Light/Dark Mode Toggle ---
-if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-        const currentTheme = document.body.getAttribute('data-theme');
-        const icon = themeBtn.querySelector('i');
-        
-        if (currentTheme === 'light') {
-            document.body.removeAttribute('data-theme');
-            if (icon) icon.className = 'fa-solid fa-moon';
-        } else {
-            document.body.setAttribute('data-theme', 'light');
-            if (icon) icon.className = 'fa-solid fa-sun';
-        }
-    });
-}
+    setTimeout(typeRole, speed);
 
-
-// --- 3. Responsive Mobile Menu Sidebar ---
-if (mobileMenuBtn && navLinksContainer) {
-    mobileMenuBtn.addEventListener('click', () => {
-        navLinksContainer.classList.toggle('active');
-        const icon = mobileMenuBtn.querySelector('i');
-        if (icon) {
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-xmark');
-        }
-    });
-
-    // Close menu when link is clicked on mobile
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinksContainer.classList.remove('active');
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon) icon.className = 'fa-solid fa-bars';
-        });
-    });
 }
 
 
-// --- 4. Scroll Tracking (Active Navbar Highlights) ---
-window.addEventListener('scroll', () => {
-    let currentSectionId = '';
-    const scrollPosition = window.scrollY; // Modern standard
+window.addEventListener("DOMContentLoaded", () => {
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (scrollPosition >= (sectionTop - sectionHeight / 3)) {
-            currentSectionId = section.getAttribute('id');
-        }
-    });
+    setTimeout(typeRole, 700);
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        const href = link.getAttribute('href');
-        
-        // FIX: Only match if currentSectionId is NOT empty
-        if (currentSectionId && href.includes(currentSectionId)) {
-            link.classList.add('active');
-        }
-    });
 });
 
-// Smooth scroll for the home page scroll-down mouse button
-// const scrollDownBtn = document.getElementById('scrollDownBtn');
 
-// if (scrollDownBtn) {
-//     scrollDownBtn.addEventListener('click', function(e) {
-//         e.preventDefault(); // Stop the default page jump
-        
-//         const targetSection = document.querySelector('#about');
-//         if (targetSection) {
-//             targetSection.scrollIntoView({
-//                 behavior: 'smooth',
-//                 block: 'start'
-//             });
-//         }
-//     });
-// }
-const contactForm = document.getElementById('contactForm');
-const formStatus = document.getElementById('formStatus');
+/* =========================================
+   THEME TOGGLE
+========================================= */
+
+const savedTheme =
+    localStorage.getItem("portfolio-theme");
+
+
+if (savedTheme === "light") {
+
+    body.setAttribute(
+        "data-theme",
+        "light"
+    );
+
+}
+
+
+function updateThemeIcon() {
+
+    if (!themeBtn) return;
+
+    const icon =
+        themeBtn.querySelector("i");
+
+    const lightMode =
+        body.getAttribute("data-theme") === "light";
+
+
+    if (icon) {
+
+        icon.className = lightMode
+            ? "fa-solid fa-sun"
+            : "fa-solid fa-moon";
+
+    }
+
+}
+
+
+updateThemeIcon();
+
+
+if (themeBtn) {
+
+    themeBtn.addEventListener("click", () => {
+
+        const lightMode =
+            body.getAttribute("data-theme") === "light";
+
+
+        if (lightMode) {
+
+            body.removeAttribute("data-theme");
+
+            localStorage.setItem(
+                "portfolio-theme",
+                "dark"
+            );
+
+        } else {
+
+            body.setAttribute(
+                "data-theme",
+                "light"
+            );
+
+            localStorage.setItem(
+                "portfolio-theme",
+                "light"
+            );
+
+        }
+
+
+        updateThemeIcon();
+
+    });
+
+}
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+if (menuBtn && navMenu) {
+
+    menuBtn.addEventListener("click", () => {
+
+        navMenu.classList.toggle("active");
+
+        const icon =
+            menuBtn.querySelector("i");
+
+        if (icon) {
+
+            const isOpen =
+                navMenu.classList.contains("active");
+
+
+            icon.className = isOpen
+                ? "fa-solid fa-xmark"
+                : "fa-solid fa-bars";
+
+        }
+
+    });
+
+}
+
+
+/* Close mobile menu */
+
+navLinks.forEach((link) => {
+
+    link.addEventListener("click", () => {
+
+        navMenu.classList.remove("active");
+
+
+        const icon =
+            menuBtn?.querySelector("i");
+
+
+        if (icon) {
+
+            icon.className =
+                "fa-solid fa-bars";
+
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   NAVBAR SCROLL EFFECT
+========================================= */
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if (!navbar) return;
+
+
+        if (window.scrollY > 30) {
+
+            navbar.classList.add("scrolled");
+
+        } else {
+
+            navbar.classList.remove("scrolled");
+
+        }
+
+    },
+    { passive: true }
+);
+
+
+/* =========================================
+   ACTIVE NAVIGATION
+========================================= */
+
+function updateActiveNavigation() {
+
+    let currentSection = "";
+
+
+    sections.forEach((section) => {
+
+        const sectionTop =
+            section.offsetTop - 160;
+
+        const sectionBottom =
+            sectionTop + section.offsetHeight;
+
+
+        if (
+            window.scrollY >= sectionTop &&
+            window.scrollY < sectionBottom
+        ) {
+
+            currentSection =
+                section.getAttribute("id");
+
+        }
+
+    });
+
+
+    navLinks.forEach((link) => {
+
+        link.classList.remove("active");
+
+
+        const href =
+            link.getAttribute("href");
+
+
+        if (
+            href === `#${currentSection}`
+        ) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateActiveNavigation,
+    { passive: true }
+);
+
+
+window.addEventListener(
+    "load",
+    updateActiveNavigation
+);
+
+
+/* =========================================
+   PROJECT ACCORDIONS
+========================================= */
+
+const projectExpandButtons =
+    document.querySelectorAll(
+        ".project-expand"
+    );
+
+
+projectExpandButtons.forEach((button) => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const targetId =
+                button.dataset.target;
+
+
+            const target =
+                document.getElementById(
+                    targetId
+                );
+
+
+            if (!target) return;
+
+
+            const isOpen =
+                target.classList.contains(
+                    "show"
+                );
+
+
+            /* Close all other project lists */
+
+            document
+                .querySelectorAll(
+                    ".sub-projects.show"
+                )
+                .forEach((list) => {
+
+                    if (list !== target) {
+
+                        list.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                });
+
+
+            document
+                .querySelectorAll(
+                    ".project-expand.open"
+                )
+                .forEach((btn) => {
+
+                    if (btn !== button) {
+
+                        btn.classList.remove(
+                            "open"
+                        );
+
+                    }
+
+                });
+
+
+            target.classList.toggle(
+                "show",
+                !isOpen
+            );
+
+
+            button.classList.toggle(
+                "open",
+                !isOpen
+            );
+
+
+            button.childNodes[0].textContent =
+                !isOpen
+                    ? "Close Projects "
+                    : "Explore Projects ";
+
+
+            /* Keep correct text for templates */
+
+            if (targetId === "webProjects") {
+
+                button.childNodes[0].textContent =
+                    !isOpen
+                        ? "Close Templates "
+                        : "Explore Templates ";
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================
+   CONTACT FORM
+========================================= */
+
+const contactForm =
+    document.getElementById(
+        "contactForm"
+    );
+
+
+const formStatus =
+    document.getElementById(
+        "formStatus"
+    );
+
 
 if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Stop form refresh
-        
-        formStatus.textContent = "Sending message... ✉️";
-        formStatus.style.color = "var(--text-color)";
 
-        // Elements ID match aagudha nu get panrom
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const subjectInput = document.getElementById('subject');
-        const messageInput = document.getElementById('message');
+    contactForm.addEventListener(
+        "submit",
+        async (event) => {
 
-        const formData = {
-            name: nameInput ? nameInput.value : '',
-            email: emailInput ? emailInput.value : '',
-            subject: subjectInput ? subjectInput.value : '',
-            message: messageInput ? messageInput.value : ''
-        };
+            event.preventDefault();
 
-        try {
-            // FORMSPREE ENDPOINT LINK (Formspree URL-a replace pannunga)
-            const response = await fetch('https://formspree.io/f/mzdnypek', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
 
-            if (response.ok) {
-                formStatus.textContent = "Message sent successfully! 🎉";
-                formStatus.style.color = "#28a745";
-                contactForm.reset();
-            } else {
-                formStatus.textContent = "Failed to send message ❌";
-                formStatus.style.color = "#dc3545";
+            if (!formStatus) return;
+
+
+            formStatus.textContent =
+                "Sending message...";
+
+
+            formStatus.style.color =
+                "var(--text-secondary)";
+
+
+            const name =
+                document.getElementById(
+                    "name"
+                )?.value.trim();
+
+
+            const email =
+                document.getElementById(
+                    "email"
+                )?.value.trim();
+
+
+            const subject =
+                document.getElementById(
+                    "subject"
+                )?.value.trim();
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                )?.value.trim();
+
+
+            const formData = {
+
+                name,
+                email,
+                subject,
+                message
+
+            };
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "https://formspree.io/f/mzdnypek",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    formData
+                                )
+
+                        }
+                    );
+
+
+                if (response.ok) {
+
+                    formStatus.textContent =
+                        "Message sent successfully!";
+
+                    formStatus.style.color =
+                        "#34d399";
+
+
+                    contactForm.reset();
+
+                } else {
+
+                    formStatus.textContent =
+                        "Unable to send message. Please try again.";
+
+                    formStatus.style.color =
+                        "#f87171";
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Contact form error:",
+                    error
+                );
+
+
+                formStatus.textContent =
+                    "Network error. Please try again.";
+
+                formStatus.style.color =
+                    "#f87171";
+
             }
-        } catch (error) {
-            console.error("Fetch Error:", error);
-            formStatus.textContent = "Network Error! Try again.";
-            formStatus.style.color = "#dc3545";
+
         }
+    );
+
+}
+
+
+/* =========================================
+   SMOOTH SCROLL
+========================================= */
+
+document
+    .querySelectorAll(
+        'a[href^="#"]'
+    )
+    .forEach((anchor) => {
+
+        anchor.addEventListener(
+            "click",
+            (event) => {
+
+                const targetId =
+                    anchor.getAttribute(
+                        "href"
+                    );
+
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+
+                    return;
+
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) return;
+
+
+                event.preventDefault();
+
+
+                target.scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "start"
+
+                });
+
+            }
+        );
+
     });
+
+
+/* =========================================
+   SIMPLE REVEAL ANIMATION
+========================================= */
+
+const revealElements =
+    document.querySelectorAll(
+        ".section-heading, .skill-category, .project-card, .featured-project, .career-box, .contact-form-wrapper, .profile-card"
+    );
+
+
+if ("IntersectionObserver" in window) {
+
+    const observer =
+        new IntersectionObserver(
+            (entries, observerInstance) => {
+
+                entries.forEach(
+                    (entry) => {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target.classList.add(
+                                "revealed"
+                            );
+
+                            observerInstance.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+
+                threshold: 0.12
+
+            }
+        );
+
+
+    revealElements.forEach(
+        (element) => {
+
+            element.classList.add(
+                "reveal-element"
+            );
+
+            observer.observe(
+                element
+            );
+
+        }
+    );
+
 }
 
-// Python projects
-function togglePythonSuite(event) {
-    event.preventDefault();
-    const card = event.currentTarget.closest('.project-card');
-    const list = card.querySelector('.python-projects-list');
-    const isHidden = window.getComputedStyle(list).display === 'none';
-    
-    list.style.display = isHidden ? 'block' : 'none';
-    event.currentTarget.innerHTML = isHidden 
-        ? 'Close Suite <i class="fa-solid fa-chevron-up"></i>' 
-        : 'Explore Projects <i class="fa-solid fa-chevron-down"></i>';
-}
 
-// Toggle UI Templates List
-function toggleUISuite(event) {
-    event.preventDefault();
-    const card = event.currentTarget.closest('.project-card');
-    const list = card.querySelector('.ui-projects-list');
-    const isHidden = window.getComputedStyle(list).display === 'none';    
-    
-    list.style.display = isHidden ? 'block' : 'none';
-    event.currentTarget.innerHTML = isHidden 
-        ? 'Close Templates <i class="fa-solid fa-chevron-up"></i>' 
-        : 'Explore Templates <i class="fa-solid fa-chevron-down"></i>';
-}
+/* =========================================
+   ESC KEY - CLOSE MOBILE MENU
+========================================= */
 
-// Toggle Games List
-function toggleGameSuite(event) {
-    event.preventDefault();
-    const card = event.currentTarget.closest('.project-card');
-    const list = card.querySelector('.game-projects-list');
-    const isHidden = window.getComputedStyle(list).display === 'none';    
-    
-    list.style.display = isHidden ? 'block' : 'none';
-    event.currentTarget.innerHTML = isHidden 
-        ? 'Close Games <i class="fa-solid fa-chevron-up"></i>' 
-        : 'Explore Games <i class="fa-solid fa-chevron-down"></i>';
-}
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key === "Escape" &&
+            navMenu
+        ) {
+
+            navMenu.classList.remove(
+                "active"
+            );
+
+
+            const icon =
+                menuBtn?.querySelector("i");
+
+
+            if (icon) {
+
+                icon.className =
+                    "fa-solid fa-bars";
+
+            }
+
+        }
+
+    }
+);
